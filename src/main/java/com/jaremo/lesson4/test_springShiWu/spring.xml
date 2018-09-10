@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       ">
+       
+       <!-- 注解注入 -->
+       <context:component-scan base-package="com.jaremo.lesson4"></context:component-scan>
+       <!-- 外部导入数据库连接的配置文件 -->
+       <context:property-placeholder location="classpath:com/jaremo/lesson4/test_springShiWu/prop.properties"/>
+       
+       <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+       		<property name="url" value="${url}"></property>
+       		<property name="username" value="${user}"></property>
+       		<property name="password" value="${pwd}"></property>
+       		<property name="driverClassName" value="${driverClass}"></property>
+       </bean>
+       
+       <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+       		<property name="dataSource" ref="dataSource"></property>
+       </bean>
+       <!-- 事务管理器 -->
+       <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       		<property name="dataSource" ref="dataSource"></property>
+       </bean>
+       <tx:advice id="advice" transaction-manager="transactionManager">
+       <!-- 事务的传播 (判定是以spring的事务来判定, 而不是以jdbc事务来判定, 虽然始终存在jdbc的事务,但就这个属性propagation而言,不存在spring类型的事务,则就是不存在)
+       		propagation="REQUIRED" (默认) : 外层有事务,则在外层中的事务,运行里层事务,外层不存在事务,里层则自己创建一个新事务,在新事务中执行
+        				 REQUIRES_NEW : 不管外层是否有事务,里层都会开启新事务 , 并在自己的事务内执行,如果外层的事务正在执行,里层的事务会挂起(不会使用事务)
+        				 SUPPORTS : 如果外层存在事务,里层则在外层事务中执行,如果外层事务不存在事务,里层使用jdbc的事务
+        				 NOT_SUPPORTED : 不管外层是否存在事务,里层都不会调用任何事务
+        				 MANDATORY : 必须在事务环境下运行,否则抛出异常
+        				 NEVER : 不能在事务环境下运行,否则抛出异常
+        -->
+       		<tx:attributes>
+       			<tx:method name="update*" />
+       			<tx:method name="add*" />
+       			<tx:method name="radis*" />
+       			<tx:method name="*" read-only="true" />
+       		</tx:attributes>
+       </tx:advice>
+       
+       <aop:config>
+       		<aop:pointcut expression="execution(* com.jaremo.*..*.Service.*.*(..))" id="qd"/>
+       		<aop:advisor advice-ref="advice" pointcut-ref="qd" />
+       </aop:config>
+</beans>

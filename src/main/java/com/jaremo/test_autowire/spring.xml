@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 自动装配 -->
+	<bean id="a" class="com.jaremo.test_autowire.A">
+		<property name="name" value="李四"></property>
+	</bean>
+	
+	<!-- 在bean中 有一个autowire的属性 根据类型 byType 根据目标bean中的属性名 byName -->
+	<bean id="b" class="com.jaremo.test_autowire.B" autowire="byType">
+	</bean>
+	
+</beans>

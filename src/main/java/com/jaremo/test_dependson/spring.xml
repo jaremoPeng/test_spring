@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="a" class="com.jaremo.test_dependson.A">
+		<property name="name" value="李四"></property>
+	</bean>
+	
+	<!-- depends-on 属性只是告诉容器前置依赖要先实例化出来  并没有将前置依赖   装配到依赖  前置bean 的bean  -->
+	<bean id="b" class="com.jaremo.test_dependson.B" depends-on="a">
+		<property name="a" ref="a"></property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 属性注入(set方法注入) -->
+	<bean id="a" class="com.jaremo.test_iocdi.A">
+		<property name="name" value="张三"></property>
+	</bean>
+	<bean id="b" class="com.jaremo.test_iocdi.B">
+		<!-- property 元素中name 表示com.jaremo.test_iocdi.B这个路径下类的属性名  ref 表示 在本配置文件中存在对应的bean -->
+		<property name="a" ref="a"></property> 
+	</bean>
+	
+	<!-- 构造器注入 -->
+	<bean id="c" class="com.jaremo.test_iocdi.C">
+	<!-- 属性name , index , type 值 value ,ref-->
+		<constructor-arg name="b" ref="b"></constructor-arg>
+	</bean>
+	
+	<!-- 复杂的注入(数组,list , map , properties) -->
+	<bean id="fz" class="com.jaremo.test_iocdi.Fuza">
+		<property name="names">
+		<!-- 假如bean中存在数组类型的 为属性赋值的话 <property name="">-<array>-<value> -->
+			<array> 
+				<value>张三</value>
+				<value>李四</value>
+				<value>王五</value>
+			</array>
+		</property>
+		
+		<property name="nameList">
+		<!-- <property name="">-<list>-<value> -->
+			<list>
+				<value>赵六</value>
+				<value>田七</value>
+				<value>彭八</value>
+			</list>
+		</property>
+		
+		<property name="nameMap">
+		<!-- map属性 <property name="">-<map>-<entry key="" value=""> -->
+			<map>
+				<entry key="n1" value="陈九"></entry>
+				<entry key="n2" value="及时反馈"></entry>
+			</map>
+		</property>
+		
+		<property name="pro">
+		<!-- properties属性 <property name="">-<props>-<prop key=""> -->
+			<props>
+				<prop key="p1">sjfls</prop>
+				<prop key="p2">ls</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

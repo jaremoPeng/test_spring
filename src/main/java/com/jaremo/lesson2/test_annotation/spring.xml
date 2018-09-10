@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       	http://www.springframework.org/schema/context/spring-context.xsd
+       ">
+       
+       <!-- 组件扫描
+       		以下四个组件 都表示被spring管理的声明
+       		@component  一般组件  
+       		@respository 表示数据持久层
+       		@service  表示业务逻辑层
+       		@controller 表示控制层
+        -->
+        <!-- 在配置文件指定哪个包名将被spring扫描 
+        	凡是带有组件声明的类都将被spring实例出来   不需要在配置文件中手动构建<bean>节点(当需要扫描多个包时, 可以使用逗号分隔)
+        	<context:component-scan base-package=""></context:component-scan>
+        	对于扫描到的组件,spring有默认命名方法  类名开头字母小写,  也可以自己创建   @组件(名字(字符串))
+         -->
+       <!-- <context:component-scan base-package="com.jaremo.lesson2.test_annotation"></context:component-scan> -->
+       
+       <context:component-scan base-package="com.jaremo.lesson2.test_annotation">
+       		<!-- 包含指定的类 -->
+       		<!-- <context:include-filter type="annotation" expression="com.jaremo.lesson2.test_annotation.A"/> -->
+      		<!-- 排除指定的类 -->
+       		<!-- <context:exclude-filter type="assignable" expression="com.jaremo.lesson2.test_annotation.B"/> -->
+       </context:component-scan>
+       
+       <bean id="a1" class="com.jaremo.lesson2.test_annotation.A">
+       		<property name="name" value="a1"></property>
+       </bean>
+       <bean id="a2" class="com.jaremo.lesson2.test_annotation.A">
+       		<property name="name" value="a2"></property>
+       </bean>
+       <bean id="a3" class="com.jaremo.lesson2.test_annotation.A">
+       		<property name="name" value="a3"></property>
+       </bean>
+       <bean id="a4" class="com.jaremo.lesson2.test_annotation.A">
+       		<property name="name" value="a4"></property>
+       </bean>
+       
+</beans>
